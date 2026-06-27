@@ -2,6 +2,18 @@
 name = "bit-twiddler"
 version = "0.1.0"
 edition = "2021"
+description = "Cross-platform developer toolbox: bit manipulation, hashing, YAML/JSON/SQL, QR, Markdown, cron, and 40+ more tools — Tauri v2, no Node.js"
+authors = ["Arunkumar Mourougappane <amouroug.dev@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/arunkumar-mourougappane/bit-twiddler"
+homepage = "https://github.com/arunkumar-mourougappane/bit-twiddler"
+readme = "README.md"
+keywords = ["developer-tools", "tauri", "bit-manipulation", "hash", "utilities"]
+categories = ["command-line-utilities", "development-tools"]
+exclude = [
+    "tailwindcss*",
+    "gen/",
+]
 
 [lib]
 name = "bit_twiddler_lib"

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "identifier": "com.arunkumar.bittwiddler",
   "build": {
-    "frontendDist": "../ui"
+    "frontendDist": "./ui"
   },
   "app": {
     "withGlobalTauri": true,
