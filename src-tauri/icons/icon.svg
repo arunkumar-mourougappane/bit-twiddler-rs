@@ -1,0 +1,300 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+
+  <!-- ── Backgrounds ────────────────────────────────────────── -->
+  <radialGradient id="bg" cx="44%" cy="38%" r="60%">
+    <stop offset="0%"   stop-color="#1e5898"/>
+    <stop offset="100%" stop-color="#09182e"/>
+  </radialGradient>
+
+  <!-- ── Box surfaces ──────────────────────────────────────── -->
+  <linearGradient id="lid" x1="0" y1="0" x2="0.1" y2="1">
+    <stop offset="0%"   stop-color="#4888d4"/>
+    <stop offset="100%" stop-color="#2d6ab8"/>
+  </linearGradient>
+  <linearGradient id="lidEdge" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%"   stop-color="#163870"/>
+    <stop offset="100%" stop-color="#0c2248"/>
+  </linearGradient>
+
+  <linearGradient id="box" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="#3080c8"/>
+    <stop offset="100%" stop-color="#163a80"/>
+  </linearGradient>
+  <linearGradient id="boxEdge" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%"   stop-color="#122e68"/>
+    <stop offset="100%" stop-color="#0a1e46"/>
+  </linearGradient>
+
+  <!-- ── Materials ─────────────────────────────────────────── -->
+  <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="#eef6ff"/>
+    <stop offset="45%"  stop-color="#b0d4f2"/>
+    <stop offset="100%" stop-color="#6890ba"/>
+  </linearGradient>
+  <linearGradient id="chromeH" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%"   stop-color="#c8e4f8"/>
+    <stop offset="50%"  stop-color="#eef8ff"/>
+    <stop offset="100%" stop-color="#90b8d8"/>
+  </linearGradient>
+
+  <linearGradient id="amber" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="#ffe040"/>
+    <stop offset="100%" stop-color="#d87010"/>
+  </linearGradient>
+
+  <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%"   stop-color="#daf0ff"/>
+    <stop offset="100%" stop-color="#7898b8"/>
+  </linearGradient>
+  <linearGradient id="silverDark" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%"   stop-color="#b8cce0"/>
+    <stop offset="100%" stop-color="#4868a0"/>
+  </linearGradient>
+
+  <linearGradient id="gearG" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%"   stop-color="#6a8298"/>
+    <stop offset="100%" stop-color="#3a5060"/>
+  </linearGradient>
+
+  <!-- ── Grid ──────────────────────────────────────────────── -->
+  <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse" x="8" y="8">
+    <path d="M44,0 H0 V44" fill="none" stroke="#4878b8" stroke-width="0.7"/>
+  </pattern>
+
+  <!-- ── Single clip to circle ─────────────────────────────── -->
+  <clipPath id="circ">
+    <circle cx="256" cy="256" r="240"/>
+  </clipPath>
+
+</defs>
+
+<!-- ══════════════════════════════════════════════════════════
+     LAYER 0 — background fills the full square (no white corners)
+     ══════════════════════════════════════════════════════════ -->
+<rect x="0" y="0" width="512" height="512" fill="url(#bg)"/>
+<circle cx="256" cy="256" r="256" fill="url(#bg)"/>
+
+<!-- Everything else clipped to circle -->
+<g clip-path="url(#circ)">
+
+  <!-- ── Grid overlay ──────────────────────────────────────── -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#grid)" opacity="0.18"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER 1 — Interior cavity (dark back-wall of open box)
+       Visible area above box body, behind the tools
+       ══════════════════════════════════════════════════════ -->
+  <polygon points="112,192 396,192 396,297 112,297" fill="#0a1828"/>
+  <!-- Subtle inner-shadow at bottom of cavity -->
+  <polygon points="112,280 396,280 396,297 112,297" fill="#060e18" opacity="0.55"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER 2 — Open Lid
+       A trapezoid angled backward from hinge at y=297.
+       Drawn after cavity so it overlays the far back wall,
+       but BEFORE tools so tools appear in front.
+       ══════════════════════════════════════════════════════ -->
+  <!-- Lid face shadow (manual offset, no filter) -->
+  <polygon points="116,300 396,300 380,188 128,188" fill="#060e18" opacity="0.45"/>
+  <!-- Lid face -->
+  <polygon points="112,297 392,297 376,185 124,185" fill="url(#lid)"/>
+  <!-- Lid right-side depth strip -->
+  <polygon points="392,297 414,279 398,167 376,185" fill="url(#lidEdge)"/>
+  <!-- Lid top chrome strip -->
+  <polygon points="124,185 376,185 378,193 122,193" fill="url(#chrome)" opacity="0.55"/>
+  <!-- Lid top highlight line -->
+  <line x1="124" y1="185" x2="376" y2="185" stroke="#7ab4e8" stroke-width="2"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER 3 — Tools inside open box
+       ══════════════════════════════════════════════════════ -->
+
+  <!-- ── Terminal window (upper-left) ──────────────────────── -->
+  <!-- Shadow -->
+  <rect x="123" y="200" width="58" height="44" rx="5" fill="#000820" opacity="0.4"/>
+  <!-- Window body -->
+  <rect x="120" y="197" width="58" height="44" rx="5" fill="#132840" stroke="#2a4868" stroke-width="1.5"/>
+  <!-- Title bar -->
+  <rect x="120" y="197" width="58" height="13" rx="5" fill="#1c3858"/>
+  <rect x="120" y="204" width="58" height="6" fill="#1c3858"/>
+  <!-- Traffic-light dots -->
+  <circle cx="130" cy="203" r="3.2" fill="#e05050"/>
+  <circle cx="139" cy="203" r="3.2" fill="#e0a030"/>
+  <circle cx="148" cy="203" r="3.2" fill="#40b040"/>
+  <!-- Code lines -->
+  <line x1="127" y1="220" x2="144" y2="220" stroke="#38a060" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="127" y1="228" x2="157" y2="228" stroke="#4878a0" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="127" y1="236" x2="139" y2="236" stroke="#4878a0" stroke-width="2.2" stroke-linecap="round"/>
+  <rect x="140" y="233" width="7" height="4" rx="1" fill="#80c0e0" opacity="0.8"/>
+
+  <!-- ── Gear (right side of interior) ──────────────────── -->
+  <!-- Manual shadow -->
+  <circle cx="357" cy="252" r="21" fill="#000820" opacity="0.4"/>
+  <g transform="translate(354,249)">
+    <!-- 8 teeth -->
+    <rect x="-5.5" y="-28" width="11" height="9" rx="2.5" transform="rotate(0)"   fill="url(#gearG)"/>
+    <rect x="-5.5" y="-28" width="11" height="9" rx="2.5" transform="rotate(45)"  fill="url(#gearG)"/>
+    <rect x="-5.5" y="-28" width="11" height="9" rx="2.5" transform="rotate(90)"  fill="url(#gearG)"/>
+    <rect x="-5.5" y="-28" width="11" height="9" rx="2.5" transform="rotate(135)" fill="url(#gearG)"/>
+    <rect x="-5.5" y="-28" width="11" height="9" rx="2.5" transform="rotate(180)" fill="url(#gearG)"/>
+    <rect x="-5.5" y="-28" width="11" height="9" rx="2.5" transform="rotate(225)" fill="url(#gearG)"/>
+    <rect x="-5.5" y="-28" width="11" height="9" rx="2.5" transform="rotate(270)" fill="url(#gearG)"/>
+    <rect x="-5.5" y="-28" width="11" height="9" rx="2.5" transform="rotate(315)" fill="url(#gearG)"/>
+    <!-- Body -->
+    <circle cx="0" cy="0" r="21" fill="url(#gearG)"/>
+    <!-- Hub bore -->
+    <circle cx="0" cy="0" r="9"  fill="#0a1828"/>
+    <circle cx="0" cy="0" r="4"  fill="url(#gearG)"/>
+  </g>
+
+  <!-- ── Wrench #2 (lighter, crossing, drawn first = behind) ── -->
+  <g transform="translate(210,248) rotate(20)">
+    <!-- Shadow -->
+    <rect x="-4" y="-42" width="8" height="66" rx="4" fill="#000820" opacity="0.35" transform="translate(2,3)"/>
+    <!-- Handle -->
+    <rect x="-4" y="-42" width="8" height="66" rx="4" fill="url(#silverDark)"/>
+    <!-- Head ring -->
+    <circle cx="0" cy="-42" r="12" fill="url(#silverDark)"/>
+    <!-- Jaw cut -->
+    <polygon points="0,-55 12,-55 12,-35 0,-35" fill="#0a1828"/>
+    <!-- Bore -->
+    <circle cx="0" cy="-42" r="6" fill="#0a1828"/>
+  </g>
+
+  <!-- ── Wrench #1 (primary, -40°, drawn second = in front) ─── -->
+  <g transform="translate(183,238) rotate(-40)">
+    <!-- Shadow -->
+    <rect x="-6" y="-52" width="12" height="82" rx="6" fill="#000820" opacity="0.4" transform="translate(3,4)"/>
+    <!-- Handle -->
+    <rect x="-6" y="-52" width="12" height="82" rx="6" fill="url(#silver)"/>
+    <!-- Head shadow -->
+    <circle cx="3" cy="-49" r="17" fill="#000820" opacity="0.35"/>
+    <!-- Head ring -->
+    <circle cx="0" cy="-52" r="17" fill="url(#silver)"/>
+    <!-- Jaw cut (open-end) -->
+    <polygon points="0,-70 18,-70 18,-42 0,-42" fill="#0a1828"/>
+    <!-- Bore -->
+    <circle cx="0" cy="-52" r="8" fill="#0a1828"/>
+    <!-- Foot knob -->
+    <circle cx="0" cy="30"  r="10" fill="url(#silver)"/>
+    <circle cx="0" cy="30"  r="5"  fill="#0a1828"/>
+  </g>
+
+  <!-- ── </> Symbol — pure paths, no text, scales perfectly ── -->
+  <!-- Glow copies (same shape, blurred manually via opacity layers) -->
+  <!-- Outer glow: large, very transparent amber -->
+  <polyline points="214,202 181,244 214,286"
+    fill="none" stroke="#f5a020" stroke-width="32" stroke-linecap="round"
+    stroke-linejoin="round" opacity="0.18"/>
+  <line x1="233" y1="286" x2="279" y2="202"
+    stroke="#f5a020" stroke-width="32" stroke-linecap="round" opacity="0.18"/>
+  <polyline points="298,202 331,244 298,286"
+    fill="none" stroke="#f5a020" stroke-width="32" stroke-linecap="round"
+    stroke-linejoin="round" opacity="0.18"/>
+  <!-- Mid glow -->
+  <polyline points="214,202 181,244 214,286"
+    fill="none" stroke="#f5a020" stroke-width="24" stroke-linecap="round"
+    stroke-linejoin="round" opacity="0.22"/>
+  <line x1="233" y1="286" x2="279" y2="202"
+    stroke="#f5a020" stroke-width="24" stroke-linecap="round" opacity="0.22"/>
+  <polyline points="298,202 331,244 298,286"
+    fill="none" stroke="#f5a020" stroke-width="24" stroke-linecap="round"
+    stroke-linejoin="round" opacity="0.22"/>
+  <!-- Shadow (manual offset) -->
+  <polyline points="217,206 184,248 217,290"
+    fill="none" stroke="#000820" stroke-width="20" stroke-linecap="round"
+    stroke-linejoin="round" opacity="0.45"/>
+  <line x1="236" y1="290" x2="282" y2="206"
+    stroke="#000820" stroke-width="20" stroke-linecap="round" opacity="0.45"/>
+  <polyline points="301,206 334,248 301,290"
+    fill="none" stroke="#000820" stroke-width="20" stroke-linecap="round"
+    stroke-linejoin="round" opacity="0.45"/>
+  <!-- Main amber strokes -->
+  <!-- < -->
+  <polyline points="214,202 181,244 214,286"
+    fill="none" stroke="url(#amber)"
+    stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- / — slightly thicker + bright white core so it punches through overlaps -->
+  <line x1="233" y1="286" x2="279" y2="202"
+    stroke="url(#amber)" stroke-width="22" stroke-linecap="round"/>
+  <line x1="233" y1="286" x2="279" y2="202"
+    stroke="#fff8e0" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+  <!-- > -->
+  <polyline points="298,202 331,244 298,286"
+    fill="none" stroke="url(#amber)"
+    stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER 4 — Box body (front face covers lower interior)
+       ══════════════════════════════════════════════════════ -->
+  <!-- Box body shadow -->
+  <rect x="112" y="300" width="284" height="114" rx="5" fill="#000820" opacity="0.45"/>
+  <!-- Front face -->
+  <rect x="108" y="297" width="284" height="112" rx="5" fill="url(#box)"/>
+  <!-- Right side depth -->
+  <polygon points="392,297 414,279 414,383 392,409" fill="url(#boxEdge)"/>
+  <!-- Bottom face hint -->
+  <polygon points="108,409 392,409 414,391 414,383" fill="#060e18" opacity="0.7"/>
+
+  <!-- ── Chrome trim at box top ───────────────────────────── -->
+  <rect x="108" y="292" width="284" height="9" rx="3" fill="url(#chrome)" opacity="0.55"/>
+  <polygon points="392,292 414,274 414,283 392,301" fill="url(#chrome)" opacity="0.3"/>
+
+  <!-- ── Clasps ─────────────────────────────────────────── -->
+  <rect x="143" y="288" width="38" height="20" rx="5" fill="url(#chrome)" opacity="0.9"/>
+  <rect x="150" y="293" width="24" height="10" rx="3" fill="#0a1828" opacity="0.5"/>
+  <rect x="331" y="288" width="38" height="20" rx="5" fill="url(#chrome)" opacity="0.9"/>
+  <rect x="338" y="293" width="24" height="10" rx="3" fill="#0a1828" opacity="0.5"/>
+
+  <!-- ── Hinge knuckles ──────────────────────────────────── -->
+  <circle cx="392" cy="318" r="5.5" fill="url(#chrome)" opacity="0.65"/>
+  <circle cx="392" cy="346" r="5.5" fill="url(#chrome)" opacity="0.65"/>
+  <circle cx="392" cy="374" r="5.5" fill="url(#chrome)" opacity="0.65"/>
+
+  <!-- ── Corner reinforcement plates ───────────────────── -->
+  <rect x="108" y="297" width="20" height="20" rx="3" fill="url(#chrome)" opacity="0.3"/>
+  <rect x="372" y="297" width="20" height="20" rx="3" fill="url(#chrome)" opacity="0.3"/>
+  <rect x="108" y="389" width="20" height="20" rx="3" fill="url(#chrome)" opacity="0.3"/>
+  <rect x="372" y="389" width="20" height="20" rx="3" fill="url(#chrome)" opacity="0.3"/>
+
+  <!-- ── "BIT TWIDDLER" label ───────────────────────────── -->
+  <text x="256" y="358"
+    font-family="'Arial Black', Arial, sans-serif"
+    font-weight="900" font-size="40" text-anchor="middle"
+    fill="#deeeff" letter-spacing="5">BIT</text>
+  <text x="256" y="396"
+    font-family="Arial, sans-serif"
+    font-weight="700" font-size="23" text-anchor="middle"
+    fill="#92b4d8" letter-spacing="2">TWIDDLER</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER 5 — Handle (topmost physical element)
+       ══════════════════════════════════════════════════════ -->
+  <!-- Posts shadow -->
+  <rect x="215" y="170" width="11" height="22" rx="5.5" fill="#000820" opacity="0.4" transform="translate(2,3)"/>
+  <rect x="290" y="170" width="11" height="22" rx="5.5" fill="#000820" opacity="0.4" transform="translate(2,3)"/>
+  <!-- Arc shadow -->
+  <path d="M226,173 Q256,129 290,173"
+    fill="none" stroke="#000820" stroke-width="13" stroke-linecap="round" opacity="0.4"
+    transform="translate(2,3)"/>
+  <!-- Posts -->
+  <rect x="213" y="168" width="11" height="22" rx="5.5" fill="url(#chrome)"/>
+  <rect x="288" y="168" width="11" height="22" rx="5.5" fill="url(#chrome)"/>
+  <!-- Handle outer arc -->
+  <path d="M224,168 Q256,126 288,168"
+    fill="none" stroke="url(#chromeH)" stroke-width="12" stroke-linecap="round"/>
+  <!-- Handle inner void -->
+  <path d="M224,168 Q256,132 288,168"
+    fill="none" stroke="#0a1828" stroke-width="5" stroke-linecap="round"/>
+
+</g><!-- end clip group -->
+
+<!-- ══════════════════════════════════════════════════════════
+     RING BORDER (outside clip group so it cleanly frames everything)
+     ══════════════════════════════════════════════════════════ -->
+<circle cx="256" cy="256" r="244" fill="none" stroke="#1e4878" stroke-width="4"  opacity="0.6"/>
+<circle cx="256" cy="256" r="239" fill="none" stroke="#5a92cc" stroke-width="6"/>
+<circle cx="256" cy="256" r="229" fill="none" stroke="#2e6098" stroke-width="2"/>
+
+</svg>
