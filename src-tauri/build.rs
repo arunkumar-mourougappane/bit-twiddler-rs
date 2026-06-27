@@ -39,7 +39,6 @@ fn main() {
         .args([
             "-i", "../ui-src/input.css",
             "-o", "../ui/styles.css",
-            "--content", "../ui/**/*.{html,js}",
             "--minify",
         ])
         .status();

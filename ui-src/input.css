@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Scan all HTML and JS in the ui/ directory for utility classes */
+@source "../ui/**/*.{html,js}";
+
 /* ============================================================
    FORCE-INCLUDE ALL TAILWIND ANIMATION UTILITIES
    @source inline() makes Tailwind emit these even if not
