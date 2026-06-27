@@ -54,5 +54,5 @@ serde_yaml = "0.9"
 notify = "8"
 notify-debouncer-mini = "0.7"
 
-# Cron - human-readable description
-cron-descriptor = "0.1"
+# Cron - human-readable description (pure, no transitive deps)
+cronspeak = "0.1"
