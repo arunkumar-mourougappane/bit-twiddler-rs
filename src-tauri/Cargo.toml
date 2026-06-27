@@ -1,0 +1,46 @@
+[package]
+name = "bit-twiddler"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "bit_twiddler_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+
+# Hashing
+md-5 = "0.11"
+sha1 = "0.11"
+sha2 = "0.11"
+digest = "0.11"
+hex = "0.4"
+
+# QR code - generate PNG as base64 data URL
+qrcode = "0.14"
+image = { version = "0.25", default-features = false, features = ["png"] }
+base64 = "0.22"
+
+# Markdown
+pulldown-cmark = { version = "0.13", features = [] }
+
+# SQL formatting
+sqlformat = "0.5"
+
+# YAML
+serde_yaml = "0.9"
+
+# File watching
+notify = "8"
+notify-debouncer-mini = "0.7"
+
+# Cron - human-readable description
+cron-descriptor = "0.1"

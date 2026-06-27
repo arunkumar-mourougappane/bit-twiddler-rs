@@ -1,0 +1,32 @@
+{
+  "productName": "Bit Twiddler",
+  "version": "0.1.0",
+  "identifier": "com.arunkumar.bittwiddler",
+  "build": {
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Bit Twiddler",
+        "width": 1000,
+        "height": 800,
+        "minWidth": 700,
+        "minHeight": 500
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": []
+  },
+  "plugins": {
+    "dialog": {}
+  }
+}
