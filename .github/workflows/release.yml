@@ -9,8 +9,40 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  release:
-    name: Build & Release (${{ matrix.name }})
+  # ── Create the GitHub release from RELEASE_NOTES.md ──────────────────────
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      release_id: ${{ steps.create.outputs.result }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create GitHub release
+        id: create
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const notes = fs.readFileSync('RELEASE_NOTES.md', 'utf8');
+            const { data } = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: context.ref_name,
+              name: `Bit Twiddler ${context.ref_name}`,
+              body: notes,
+              draft: false,
+              prerelease: false,
+            });
+            return data.id;
+
+  # ── Build and upload assets (3 platforms) ────────────────────────────────
+  build:
+    name: Build & Upload (${{ matrix.name }})
+    needs: create-release
     permissions:
       contents: write
     runs-on: ${{ matrix.os }}
@@ -24,9 +56,6 @@ jobs:
           - name: macOS arm64
             os: macos-latest
             target: aarch64-apple-darwin
-          - name: macOS x86_64
-            os: macos-13
-            target: x86_64-apple-darwin
           - name: Windows x86_64
             os: windows-latest
             target: x86_64-pc-windows-msvc
@@ -52,24 +81,10 @@ jobs:
             libayatana-appindicator3-dev \
             librsvg2-dev
 
-      - name: Read release notes
-        id: notes
-        shell: bash
-        run: |
-          {
-            echo 'body<<RELEASE_BODY_EOF'
-            cat RELEASE_NOTES.md
-            echo RELEASE_BODY_EOF
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Build and publish release
+      - name: Build and upload release assets
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: ${{ github.ref_name }}
-          releaseName: Bit Twiddler ${{ github.ref_name }}
-          releaseBody: ${{ steps.notes.outputs.body }}
-          releaseDraft: false
-          prerelease: false
+          releaseId: ${{ needs.create-release.outputs.release_id }}
           args: --target ${{ matrix.target }}
