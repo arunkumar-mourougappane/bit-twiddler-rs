@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+/* ============================================================
+   FORCE-INCLUDE ALL TAILWIND ANIMATION UTILITIES
+   @source inline() makes Tailwind emit these even if not
+   found in scanned content files.
+   ============================================================ */
+
+/* Core animate-* utilities */
+@source inline("{animate-none,animate-spin,animate-ping,animate-pulse,animate-bounce}");
+
+/* Animation duration */
+@source inline("{duration-0,duration-75,duration-100,duration-150,duration-200,duration-300,duration-500,duration-700,duration-1000}");
+
+/* Animation delay */
+@source inline("{delay-0,delay-75,delay-100,delay-150,delay-200,delay-300,delay-500,delay-700,delay-1000}");
+
+/* Animation timing function */
+@source inline("{ease-linear,ease-in,ease-out,ease-in-out}");
+
+/* Animation iteration */
+@source inline("{repeat-0,repeat-1,repeat-infinite}");
+
+/* Animation direction */
+@source inline("{direction-normal,direction-reverse,direction-alternate,direction-alternate-reverse}");
+
+/* Animation fill mode */
+@source inline("{fill-none,fill-forwards,fill-backwards,fill-both}");
+
+/* Animation play state */
+@source inline("{running,paused}");
+
+/* Transition utilities */
+@source inline("{transition,transition-none,transition-all,transition-colors,transition-opacity,transition-shadow,transition-transform}");
+
+/* Motion safety variants — force emit both sides */
+@source inline("{motion-safe:animate-spin,motion-safe:animate-ping,motion-safe:animate-pulse,motion-safe:animate-bounce}");
+@source inline("{motion-reduce:animate-none,motion-reduce:transition-none}");
+
+/* ============================================================
+   BASE LAYER
+   ============================================================ */
+@layer base {
+  body {
+    background-color: var(--color-slate-900, #0f172a);
+    color: var(--color-slate-100, #f1f5f9);
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* ============================================================
+   CUSTOM ANIMATIONS — persists through Tailwind rebuilds
+   ============================================================ */
+
+/* --- Tool section: Fade + slide-up on switch --- */
+@keyframes toolEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.tool-section { animation: none; }
+.tool-section.entering {
+  animation: toolEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* --- Sidebar boot animations --- */
+@keyframes navSlideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes headerFadeDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes iconPop {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.38); }
+  100% { transform: scale(1.10); }
+}
+
+aside > div:first-child {
+  animation: headerFadeDown 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+#nav-list li {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: navSlideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+#nav-list li:nth-child(1)  { animation-delay: 0.04s; }
+#nav-list li:nth-child(2)  { animation-delay: 0.09s; }
+#nav-list li:nth-child(3)  { animation-delay: 0.14s; }
+#nav-list li:nth-child(4)  { animation-delay: 0.19s; }
+#nav-list li:nth-child(5)  { animation-delay: 0.24s; }
+#nav-list li:nth-child(6)  { animation-delay: 0.29s; }
+#nav-list li:nth-child(7)  { animation-delay: 0.34s; }
+#nav-list li:nth-child(8)  { animation-delay: 0.39s; }
+#nav-list li:nth-child(9)  { animation-delay: 0.44s; }
+#nav-list li:nth-child(10) { animation-delay: 0.49s; }
+#nav-list li:nth-child(11) { animation-delay: 0.54s; }
+#nav-list li:nth-child(12) { animation-delay: 0.59s; }
+#nav-list li:nth-child(13) { animation-delay: 0.63s; }
+#nav-list li:nth-child(14) { animation-delay: 0.67s; }
+#nav-list li:nth-child(15) { animation-delay: 0.71s; }
+#nav-list li:nth-child(16) { animation-delay: 0.75s; }
+
+/* --- Sliding pill indicator --- */
+#nav-list {
+  position: relative;
+}
+
+.nav-active-pill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-radius: 0.5rem;
+  background: rgb(37 99 235 / 0.12);
+  border: 1px solid rgb(59 130 246 / 0.25);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  transition:
+    top    0.36s cubic-bezier(0.34, 1.56, 0.64, 1),
+    height 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.18s ease;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+}
+
+/* Active nav link — text/icon only, pill provides bg */
+.nav-link.active-tool {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Icon micro-animations */
+.nav-link svg {
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nav-link:hover svg {
+  transform: scale(1.15);
+}
+
+.nav-link.icon-clicked svg {
+  animation: iconPop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ============================================================
+   THEME SYSTEM — accent color overrides per data-theme
+   ============================================================ */
+
+/* --- Violet --- */
+body[data-theme="violet"] .nav-active-pill {
+  background: rgb(139 92 246 / 0.14);
+  border-color: rgb(139 92 246 / 0.30);
+}
+body[data-theme="violet"] .nav-link.active-tool { color: #c4b5fd !important; }
+body[data-theme="violet"] aside > div:first-child h1 {
+  background-image: linear-gradient(to right, #a78bfa, #818cf8, #34d399) !important;
+}
+
+/* --- Emerald --- */
+body[data-theme="emerald"] .nav-active-pill {
+  background: rgb(16 185 129 / 0.14);
+  border-color: rgb(16 185 129 / 0.30);
+}
+body[data-theme="emerald"] .nav-link.active-tool { color: #6ee7b7 !important; }
+body[data-theme="emerald"] aside > div:first-child h1 {
+  background-image: linear-gradient(to right, #6ee7b7, #34d399, #38bdf8) !important;
+}
+
+/* --- Rose --- */
+body[data-theme="rose"] .nav-active-pill {
+  background: rgb(244 63 94 / 0.14);
+  border-color: rgb(244 63 94 / 0.30);
+}
+body[data-theme="rose"] .nav-link.active-tool { color: #fda4af !important; }
+body[data-theme="rose"] aside > div:first-child h1 {
+  background-image: linear-gradient(to right, #fda4af, #fb7185, #c084fc) !important;
+}
+
+/* ============================================================
+   THEME DOT — active state ring
+   ============================================================ */
+.theme-dot {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.theme-dot.active-theme {
+  outline-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.2);
+}
+
+/* ============================================================
+   FAVORITES STAR BUTTON
+   ============================================================ */
+.fav-btn {
+  font-size: 0.85rem;
+  line-height: 1;
+  color: #4b5563;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.nav-link:hover .fav-btn,
+.nav-link.has-fav .fav-btn {
+  opacity: 1;
+}
+.fav-btn:hover { color: #facc15; transform: scale(1.2); }
+.fav-btn.is-fav  { color: #facc15; opacity: 1 !important; }
+
+/* ============================================================
+   MARKDOWN PREVIEW — typography for rendered HTML output
+   ============================================================ */
+.md-preview h1 { font-size: 1.4rem; font-weight: 700; color: #f1f5f9; margin: 0 0 0.75rem; border-bottom: 1px solid #1e293b; padding-bottom: 0.4rem; }
+.md-preview h2 { font-size: 1.2rem; font-weight: 600; color: #e2e8f0; margin: 1rem 0 0.4rem; }
+.md-preview h3 { font-size: 1.05rem; font-weight: 600; color: #cbd5e1; margin: 0.75rem 0 0.3rem; }
+.md-preview h4,.md-preview h5,.md-preview h6 { font-size: 0.95rem; font-weight: 600; color: #94a3b8; margin: 0.5rem 0 0.25rem; }
+.md-preview p  { color: #94a3b8; margin: 0.45rem 0; line-height: 1.75; }
+.md-preview code { background: rgb(30 41 59); color: #7dd3fc; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.82em; font-family: monospace; }
+.md-preview pre { background: rgb(15 23 42); border: 1px solid #1e293b; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; margin: 0.75rem 0; }
+.md-preview pre code { background: transparent; padding: 0; color: #93c5fd; }
+.md-preview blockquote { border-left: 3px solid #3b82f6; padding-left: 1rem; color: #64748b; margin: 0.75rem 0; font-style: italic; }
+.md-preview ul,.md-preview ol { color: #94a3b8; padding-left: 1.5rem; margin: 0.4rem 0; }
+.md-preview li { margin: 0.2rem 0; line-height: 1.65; }
+.md-preview a  { color: #60a5fa; text-decoration: underline; }
+.md-preview strong { color: #e2e8f0; }
+.md-preview em { font-style: italic; }
+.md-preview hr { border-color: #1e293b; margin: 1rem 0; }
+.md-preview table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
+.md-preview th,.md-preview td { border: 1px solid #334155; padding: 0.4rem 0.65rem; font-size: 0.8rem; }
+.md-preview th { background: rgb(30 41 59); color: #e2e8f0; font-weight: 600; text-align: left; }
+.md-preview td { color: #94a3b8; }
+.md-preview img { max-width: 100%; border-radius: 0.375rem; margin: 0.5rem 0; }
+
+/* ============================================================
+   SIDEBAR ACCORDION & SEARCH
+   ============================================================ */
+
+.category-group .category-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.category-group.expanded .category-content {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  margin-bottom: 0.5rem;
+}
+
+.category-group .category-content > ul {
+  overflow: hidden;
+}
+
+.category-group .category-header svg {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-group.expanded .category-header svg {
+  transform: rotate(180deg);
+}
+
+.category-group.hidden {
+  display: none;
+}
+
+/* Custom Scrollbar for Sidebar */
+.custom-scrollbar::-webkit-scrollbar { width: 3px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(71, 85, 105, 0.3);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(71, 85, 105, 0.6);
+}

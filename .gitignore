@@ -10,5 +10,8 @@ src-tauri/gen/
 # Node.js (excluded from this project by design)
 node_modules/
 
+# Tailwind standalone binary (large; download via: ./tailwindcss --help)
+/tailwindcss
+
 # macOS
 .DS_Store
