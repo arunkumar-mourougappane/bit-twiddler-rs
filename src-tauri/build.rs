@@ -37,8 +37,10 @@ fn main() {
 
     let status = std::process::Command::new(path)
         .args([
-            "-i", "../ui-src/input.css",
-            "-o", "../ui/styles.css",
+            "-i",
+            "../ui-src/input.css",
+            "-o",
+            "../ui/styles.css",
             "--minify",
         ])
         .status();

@@ -1,4 +1,4 @@
-use pulldown_cmark::{Parser, Options, html};
+use pulldown_cmark::{html, Options, Parser};
 
 #[tauri::command]
 pub fn render_markdown(md: String) -> String {

@@ -1,6 +1,6 @@
-use qrcode::QrCode;
-use image::{Rgb, RgbImage};
 use base64::{engine::general_purpose::STANDARD, Engine};
+use image::{Rgb, RgbImage};
+use qrcode::QrCode;
 
 #[tauri::command]
 pub fn generate_qr(text: String) -> Result<String, String> {

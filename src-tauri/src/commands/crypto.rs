@@ -1,14 +1,14 @@
-use std::sync::Mutex;
-use serde::Serialize;
-use tauri::Emitter;
 use digest::Digest;
+use hex;
 use md5::Md5;
+use notify::{Config, Event, EventKind, RecommendedWatcher, RecursiveMode, Watcher};
+use serde::Serialize;
 use sha1::Sha1;
 use sha2::{Sha256, Sha512};
-use hex;
-use notify::{RecommendedWatcher, RecursiveMode, Watcher, Config, Event, EventKind};
-use std::time::Duration;
 use std::io::Read;
+use std::sync::Mutex;
+use std::time::Duration;
+use tauri::Emitter;
 
 #[derive(Serialize, Clone)]
 pub struct HashResult {
@@ -79,8 +79,7 @@ pub fn hash_file(file_path: String, app_handle: tauri::AppHandle) -> Result<Hash
     let app = app_handle.clone();
 
     let (tx, rx) = std::sync::mpsc::channel::<notify::Result<Event>>();
-    let mut watcher = RecommendedWatcher::new(tx, Config::default())
-        .map_err(|e| e.to_string())?;
+    let mut watcher = RecommendedWatcher::new(tx, Config::default()).map_err(|e| e.to_string())?;
     watcher
         .watch(
             std::path::Path::new(&file_path),
@@ -91,15 +90,13 @@ pub fn hash_file(file_path: String, app_handle: tauri::AppHandle) -> Result<Hash
     std::thread::spawn(move || {
         let mut last_emit = std::time::Instant::now();
         let debounce = Duration::from_millis(300);
-        for result in rx {
-            if let Ok(event) = result {
-                if matches!(event.kind, EventKind::Modify(_)) {
-                    let now = std::time::Instant::now();
-                    if now.duration_since(last_emit) >= debounce {
-                        last_emit = now;
-                        if let Ok(h) = compute_hashes_from_file(&watch_path) {
-                            let _ = app.emit("file-hash-update", &h);
-                        }
+        for event in rx.into_iter().flatten() {
+            if matches!(event.kind, EventKind::Modify(_)) {
+                let now = std::time::Instant::now();
+                if now.duration_since(last_emit) >= debounce {
+                    last_emit = now;
+                    if let Ok(h) = compute_hashes_from_file(&watch_path) {
+                        let _ = app.emit("file-hash-update", &h);
                     }
                 }
             }

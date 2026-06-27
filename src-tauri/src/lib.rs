@@ -1,6 +1,6 @@
 mod commands;
 
-use commands::{crypto, qr, markdown, yaml, sql, cron, dialog};
+use commands::{cron, crypto, dialog, markdown, qr, sql, yaml};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
