@@ -1,25 +1,52 @@
 use std::path::Path;
 
 fn main() {
-    // Rebuild CSS whenever the source stylesheet or any UI file changes
     println!("cargo:rerun-if-changed=../ui-src/input.css");
     println!("cargo:rerun-if-changed=../ui/index.html");
 
-    // Run Tailwind standalone CLI if the binary exists next to Cargo.toml
-    let tailwind = Path::new("../tailwindcss");
-    if tailwind.exists() {
-        let status = std::process::Command::new(tailwind)
-            .args([
-                "-i", "../ui-src/input.css",
-                "-o", "../ui/styles.css",
-                "--content", "../ui/**/*.{html,js}",
-                "--minify",
-            ])
-            .status();
-        if let Ok(s) = status {
-            if !s.success() {
-                eprintln!("cargo:warning=Tailwind CSS build failed");
-            }
+    // Locate the Tailwind standalone binary for the current platform.
+    // Download the right binary and drop it next to Cargo.toml:
+    //   macOS arm64  → tailwindcss-macos-arm64
+    //   macOS x86_64 → tailwindcss-macos-x64
+    //   Linux arm64  → tailwindcss-linux-arm64
+    //   Linux x86_64 → tailwindcss-linux-x64
+    //   Windows x64  → tailwindcss-windows-x64.exe
+    let binary = if cfg!(target_os = "windows") {
+        "../tailwindcss-windows-x64.exe"
+    } else if cfg!(target_os = "macos") {
+        if cfg!(target_arch = "aarch64") {
+            "../tailwindcss-macos-arm64"
+        } else {
+            "../tailwindcss-macos-x64"
+        }
+    } else if cfg!(target_arch = "aarch64") {
+        "../tailwindcss-linux-arm64"
+    } else {
+        "../tailwindcss-linux-x64"
+    };
+
+    // Generic fallback: a binary simply named "tailwindcss" in the root
+    let path = if Path::new(binary).exists() {
+        binary
+    } else if Path::new("../tailwindcss").exists() {
+        "../tailwindcss"
+    } else {
+        tauri_build::build();
+        return;
+    };
+
+    let status = std::process::Command::new(path)
+        .args([
+            "-i", "../ui-src/input.css",
+            "-o", "../ui/styles.css",
+            "--content", "../ui/**/*.{html,js}",
+            "--minify",
+        ])
+        .status();
+
+    if let Ok(s) = status {
+        if !s.success() {
+            eprintln!("cargo:warning=Tailwind CSS build failed");
         }
     }
 
